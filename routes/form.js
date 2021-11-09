@@ -7,7 +7,7 @@ const Supplier = mongoose.model('Supplier')
 const ItemMaster = mongoose.model('ItemMaster')
 const PO = mongoose.model('PO')
 
-
+//generate supplier master
 router.post("/supplier", upload.array("file"), async (req, res) => {
     const { supplier, address1, state, branches, email } = req.body
     console.log(req.files)
@@ -35,6 +35,13 @@ router.post("/supplier", upload.array("file"), async (req, res) => {
 })
 
 
+//get all supplier
+router.get('/supplier', (req, res) => {
+    Supplier.find().then(data => { console.log(data) })
+})
+
+
+//generate item master 
 router.post('/item', async (req, res) => {
     const { code, description, category, subCategory, uom, price, moq } = req.body
     const form = new ItemMaster({
@@ -56,7 +63,6 @@ router.post('/item', async (req, res) => {
 })
 
 
-
 //nodemailer
 const transporter = nodemailer.createTransport({
     host: 'smtp.ethereal.email',
@@ -67,7 +73,7 @@ const transporter = nodemailer.createTransport({
     }
 });
 
-
+//PO form  generation
 router.post('/po', async (req, res) => {
     const { id, type, supplier, item, timePeriod, creditPeriod, billingTenure, orderQuantity, validityStart, validityEnd } = req.body
     const form = new PO({
@@ -88,9 +94,9 @@ router.post('/po', async (req, res) => {
 })
 
 
+//invoice uplode route
 router.get('/po/:id', (req, res) => {
     const id = req.params.id
-    // res.send(id)
     PO.findOne({ id: id }).then(user => {
         res.send(user)
     }).catch((err) => {

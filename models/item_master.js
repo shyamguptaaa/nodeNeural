@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const Supplier = mongoose.model('Supplier')
+const { ObjectId } = mongoose.Schema.Types
 
 const ItemSchema = new mongoose.Schema({
     code: {
@@ -18,7 +19,10 @@ const ItemSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    // supplier: [Supplier],
+    supplier: {
+        type: ObjectId,
+        ref: Supplier
+    },
     uom: {
         type: Number,
         required: true
