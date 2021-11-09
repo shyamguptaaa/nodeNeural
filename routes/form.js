@@ -2,6 +2,7 @@ const upload = require("../middleware/file_upload");
 const mongoose = require("mongoose");
 const express = require("express");
 const router = express.Router();
+const nodemailer = require('nodemailer')
 const Supplier = mongoose.model('Supplier')
 const ItemMaster = mongoose.model('ItemMaster')
 const PO = mongoose.model('PO')
@@ -55,19 +56,47 @@ router.post('/item', async (req, res) => {
 })
 
 
+
+//nodemailer
+const transporter = nodemailer.createTransport({
+    host: 'smtp.ethereal.email',
+    port: 587,
+    auth: {
+        user: 'alessia.wisozk94@ethereal.email',
+        pass: 'PTCPfxgWSNGEFr7c1k'
+    }
+});
+
+
 router.post('/po', async (req, res) => {
-    const { type, supplier, item, timePeriod, creditPeriod, billingTenure, orderQuantity, validityStart, validityEnd } = req.body
+    const { id, type, supplier, item, timePeriod, creditPeriod, billingTenure, orderQuantity, validityStart, validityEnd } = req.body
     const form = new PO({
-        type, supplier, item, timePeriod, creditPeriod, billingTenure, orderQuantity, validityStart, validityEnd
+        id, type, supplier, item, timePeriod, creditPeriod, billingTenure, orderQuantity, validityStart, validityEnd
     })
-    form.save().then(result => {
-        res.json({ form: result })
-    }).catch(err => {
-        console.log(err)
+    form.save().then(user => {
+        transporter.sendMail({
+            from: "no-reply@jiphy.com",
+            to: 'shivansh211299@gmail.com',
+            subject: "signup success",
+            html: "<h1>welcome to jiphy</h1>"
+        })
+        res.json({ message: "saved successfully" })
     })
-
-
+        .catch((err) => {
+            console.log(err);
+        });
 })
 
 
+router.get('/po/:id', (req, res) => {
+    const id = req.params.id
+    // res.send(id)
+    PO.findOne({ id: id }).then(user => {
+        res.send(user)
+    }).catch((err) => {
+        console.log(err)
+    })
+})
+
 module.exports = router;
+

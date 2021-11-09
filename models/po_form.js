@@ -2,6 +2,9 @@ const mongoose = require('mongoose');
 const Supplier = mongoose.model('Supplier')
 
 const PoSchema = new mongoose.Schema({
+    id: {
+        type: Number
+    },
     type: {
         type: String,
         required: true,
