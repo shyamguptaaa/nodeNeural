@@ -37,7 +37,7 @@ router.post("/supplier", upload.array("file"), async (req, res) => {
 
 //get all supplier
 router.get('/supplier', (req, res) => {
-    Supplier.find().then(data => { console.log(data) })
+    Supplier.find().then(data => { res.send(data) })
 })
 
 

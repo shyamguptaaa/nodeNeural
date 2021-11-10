@@ -19,10 +19,6 @@ const ItemSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    supplier: {
-        type: ObjectId,
-        ref: Supplier
-    },
     uom: {
         type: Number,
         required: true

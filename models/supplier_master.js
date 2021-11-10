@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-
+const { ObjectId } = mongoose.Schema.Types
 
 const SupplierSchema = new mongoose.Schema({
     supplier: {
@@ -18,6 +18,7 @@ const SupplierSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    item: [{ type: ObjectId, ref: "User" }],
     cin: { type: String },
     branches: [{ type: String }],
     gst: { type: String },
