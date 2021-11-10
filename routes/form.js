@@ -1,6 +1,7 @@
 const upload = require("../middleware/file_upload");
 const mongoose = require("mongoose");
 const express = require("express");
+const { v4: uuidv4 } = require('uuid');
 const router = express.Router();
 const nodemailer = require('nodemailer')
 const Supplier = mongoose.model('Supplier')
@@ -43,12 +44,13 @@ router.get('/supplier', (req, res) => {
 
 //generate item master 
 router.post('/item', async (req, res) => {
-    const { code, description, category, subCategory, uom, price, moq } = req.body
+    const { code, description, category, subCategory, uom, price, moq, supplier } = req.body
     const form = new ItemMaster({
         code,
         description,
         category,
         subCategory,
+        supplier,
         uom,
         price,
         moq
@@ -62,6 +64,26 @@ router.post('/item', async (req, res) => {
 
 })
 
+//get item  
+router.get('/item', (req, res) => {
+    ItemMaster.find().then(data => { res.send(data) })
+})
+
+router.put('/update', (req, res) => {
+    Supplier.findByIdAndUpdate(req.body.supplier, {
+
+        $push: { item: req.body.item }
+    }, {
+        new: true
+    }).exec((err, result) => {
+        if (err) {
+            return res.status(422).json({ error: err })
+        }
+        else {
+            res.json(result)
+        }
+    })
+})
 
 //nodemailer
 const transporter = nodemailer.createTransport({
@@ -75,7 +97,8 @@ const transporter = nodemailer.createTransport({
 
 //PO form  generation
 router.post('/po', async (req, res) => {
-    const { id, type, supplier, item, timePeriod, creditPeriod, billingTenure, orderQuantity, validityStart, validityEnd } = req.body
+    const { type, supplier, item, timePeriod, creditPeriod, billingTenure, orderQuantity, validityStart, validityEnd } = req.body
+    const id = uuidv4();
     const form = new PO({
         id, type, supplier, item, timePeriod, creditPeriod, billingTenure, orderQuantity, validityStart, validityEnd
     })
@@ -83,8 +106,10 @@ router.post('/po', async (req, res) => {
         transporter.sendMail({
             from: "no-reply@jiphy.com",
             to: 'shivansh211299@gmail.com',
-            subject: "signup success",
-            html: "<h1>welcome to jiphy</h1>"
+            subject: "PO success",
+            html: `localhost:5000/po/${id}`,
+
+
         })
         res.json({ message: "saved successfully" })
     })

@@ -19,6 +19,9 @@ const ItemSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    supplier: {
+        type: String,
+    },
     uom: {
         type: Number,
         required: true

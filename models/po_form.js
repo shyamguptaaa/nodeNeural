@@ -3,7 +3,7 @@ const Supplier = mongoose.model('Supplier')
 
 const PoSchema = new mongoose.Schema({
     id: {
-        type: Number
+        type: String
     },
     type: {
         type: String,
@@ -13,10 +13,10 @@ const PoSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    item: {
+    item: [{
         type: String,
         required: true
-    },
+    }],
     timePeriod: {
         type: String,
         required: true
@@ -42,6 +42,7 @@ const PoSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    invoice: [{ type: String }],
 
 })
 
