@@ -19,7 +19,7 @@ const SupplierSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    item: [{ type: String }],
+    item: [{ type: ObjectId, ref: "ItemMaster" }],
     cin: { type: String },
     branches: [{ type: String }],
     gst: { type: String },

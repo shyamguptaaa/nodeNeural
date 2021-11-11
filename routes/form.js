@@ -38,14 +38,15 @@ router.post("/supplier", upload.array("file"), async (req, res) => {
 
 //get all supplier
 router.get('/supplier', (req, res) => {
-    Supplier.find().then(data => { res.send(data) })
+    Supplier.find().populate("item")
+        .then(data => { res.send(data) })
 })
 
 
 //generate item master 
 router.post('/item', async (req, res) => {
     const { code, description, category, subCategory, uom, price, moq, supplier } = req.body
-    const form = new ItemMaster({
+    const record = await ItemMaster.create({
         code,
         description,
         category,
@@ -55,12 +56,25 @@ router.post('/item', async (req, res) => {
         price,
         moq
     })
-    form.save().then(result => {
-        res.json({ form: result })
-    }).catch(err => {
-        console.log(err)
-    })
+    const itemId = record._id
+    // const form = new ItemMaster({
+    //     code,
+    //     description,
+    //     category,
+    //     subCategory,
+    //     supplier,
+    //     uom,
+    //     price,
+    //     moq
+    // })
+    // form.save()
+    // console.log(form)
+    const eligible = await Supplier.updateOne(
+        { supplier },
+        { $push: { item: itemId } }
+    );
 
+    res.send(eligible)
 
 })
 
@@ -87,17 +101,17 @@ router.put('/update', (req, res) => {
 
 //nodemailer
 const transporter = nodemailer.createTransport({
-    host: 'smtp.ethereal.email',
+    host: 'smtp.gmail.com',
     port: 587,
     auth: {
-        user: 'alessia.wisozk94@ethereal.email',
-        pass: 'PTCPfxgWSNGEFr7c1k'
+        user: 'shivanshrocks21@gmail.com',
+        pass: 'Shivansh22@.'
     }
 });
 
 //PO form  generation
 router.post('/po', async (req, res) => {
-    const { type, supplier, item, timePeriod, creditPeriod, billingTenure, orderQuantity, validityStart, validityEnd } = req.body
+    const { type, supplier, item, timePeriod, creditPeriod, billingTenure, orderQuantity, validityStart, validityEnd, email } = req.body
     const id = uuidv4();
     const form = new PO({
         id, type, supplier, item, timePeriod, creditPeriod, billingTenure, orderQuantity, validityStart, validityEnd
@@ -107,7 +121,7 @@ router.post('/po', async (req, res) => {
             from: "no-reply@jiphy.com",
             to: 'shivansh211299@gmail.com',
             subject: "PO success",
-            html: `localhost:5000/po/${id}`,
+            html: `<a href="http://localhost:5000/po/${id}" > click this link to upload invoice </a >`
 
 
         })
