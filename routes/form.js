@@ -83,21 +83,21 @@ router.get('/item', (req, res) => {
     ItemMaster.find().then(data => { res.send(data) })
 })
 
-router.put('/update', (req, res) => {
-    Supplier.findByIdAndUpdate(req.body.supplier, {
+// router.put('/update', (req, res) => {
+//     Supplier.findByIdAndUpdate(req.body.supplier, {
 
-        $push: { item: req.body.item }
-    }, {
-        new: true
-    }).exec((err, result) => {
-        if (err) {
-            return res.status(422).json({ error: err })
-        }
-        else {
-            res.json(result)
-        }
-    })
-})
+//         $push: { item: req.body.item }
+//     }, {
+//         new: true
+//     }).exec((err, result) => {
+//         if (err) {
+//             return res.status(422).json({ error: err })
+//         }
+//         else {
+//             res.json(result)
+//         }
+//     })
+// })
 
 //nodemailer
 const transporter = nodemailer.createTransport({
