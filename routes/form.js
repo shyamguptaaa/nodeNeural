@@ -1,4 +1,4 @@
-const upload = require("../middleware/file_upload");
+const { upload } = require("../middleware/file_upload");
 const mongoose = require("mongoose");
 const express = require("express");
 const { v4: uuidv4 } = require('uuid');
@@ -7,11 +7,20 @@ const nodemailer = require('nodemailer')
 const Supplier = mongoose.model('Supplier')
 const ItemMaster = mongoose.model('ItemMaster')
 const PO = mongoose.model('PO')
+const multer = require("multer")
+
+
 
 //generate supplier master
-router.post("/supplier", upload.array("file"), async (req, res) => {
-    const { supplier, address1, state, branches, email } = req.body
-    console.log(req.files)
+router.post("/supplier", upload.array("file", 10), async (req, res) => {
+
+    const { supplier,
+        address1,
+        email,
+        state,
+        branches } = req.body
+    console.log(req.body)
+
     if (req.files === undefined) return res.send("you must select a file.");
 
     const form = new Supplier({

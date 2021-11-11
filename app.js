@@ -4,7 +4,8 @@ const mongoose = require("mongoose")
 const cors = require("cors")
 
 app.use(express.json())
-// app.use(cors)
+app.use(express.urlencoded({ extended: false, limit: "50mb" }));
+app.use(cors())
 
 mongoose.connect('mongodb://localhost:27017/server2', () => {
     console.log("connected to db")
