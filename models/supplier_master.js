@@ -1,23 +1,23 @@
-const mongoose = require('mongoose');
-const { ObjectId } = mongoose.Schema.Types
+const mongoose = require("mongoose");
+const { ObjectId } = mongoose.Schema.Types;
 
-
-const SupplierSchema = new mongoose.Schema({
-    supplier: {
-        type: String,
-        required: true,
+const SupplierSchema = new mongoose.Schema(
+  {
+    supplierName: {
+      type: String,
+      required: true,
     },
     address1: {
-        type: String,
-        required: true
+      type: String,
+      required: true,
     },
     state: {
-        type: String,
-        required: true
+      type: String,
+      required: true,
     },
     email: {
-        type: String,
-        required: true
+      type: String,
+      required: true,
     },
     item: [{ type: ObjectId, ref: "ItemMaster" }],
     cin: { type: String },
@@ -27,9 +27,11 @@ const SupplierSchema = new mongoose.Schema({
     tan: { type: String },
     address: { type: String },
     bank: { type: String },
+  },
+  {
+    timestamps: true,
+  }
+);
 
-})
-
-mongoose.model("Supplier", SupplierSchema)
-
-
+const SupplierModel = mongoose.model("SupplierMaster", SupplierSchema);
+module.exports = SupplierModel;

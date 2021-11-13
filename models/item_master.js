@@ -1,42 +1,46 @@
-const mongoose = require('mongoose');
-const Supplier = mongoose.model('Supplier')
-const { ObjectId } = mongoose.Schema.Types
+const mongoose = require("mongoose");
 
-const ItemSchema = new mongoose.Schema({
+const { ObjectId } = mongoose.Schema.Types;
+
+const ItemSchema = new mongoose.Schema(
+  {
     code: {
-        type: Number,
-        required: true,
+      type: Number,
+      required: true,
     },
     description: {
-        type: String,
-        required: true
+      type: String,
+      required: true,
     },
     category: {
-        type: String,
-        required: true
+      type: String,
+      required: true,
     },
     subCategory: {
-        type: String,
-        required: true
+      type: String,
+      required: true,
     },
-    supplier: {
-        type: String,
+    supplierName: {
+      type: String,
+      required: true,
     },
     uom: {
-        type: Number,
-        required: true
+      type: Number,
+      required: true,
     },
     price: {
-        type: Number,
-        required: true
+      type: Number,
+      required: true,
     },
     moq: {
-        type: Number,
-        required: true
+      type: Number,
+      required: true,
     },
+  },
+  {
+    timestamps: true,
+  }
+);
 
-})
-
-mongoose.model("ItemMaster", ItemSchema)
-
-
+const ItemMOdel = mongoose.model("ItemMaster", ItemSchema);
+module.exports = ItemMOdel;
