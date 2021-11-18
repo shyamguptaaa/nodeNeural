@@ -23,6 +23,7 @@ mongoose.connect("mongodb://localhost:27017/server2", () => {
 app.use(require("./routes/supplierForm"));
 app.use(require("./routes/poForms"));
 app.use(require("./routes/itemForm"));
+app.use(require("./routes/auth"));
 
 //connection
 const PORT = process.env.PORT || 5000;

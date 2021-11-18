@@ -28,10 +28,6 @@ const ItemSchema = new mongoose.Schema(
       type: Number,
       required: true,
     },
-    price: {
-      type: Number,
-      required: true,
-    },
     moq: {
       type: Number,
       required: true,
@@ -42,5 +38,5 @@ const ItemSchema = new mongoose.Schema(
   }
 );
 
-const ItemMOdel = mongoose.model("ItemMaster", ItemSchema);
-module.exports = ItemMOdel;
+const ItemModel = mongoose.model("ItemMaster", ItemSchema);
+module.exports = ItemModel;

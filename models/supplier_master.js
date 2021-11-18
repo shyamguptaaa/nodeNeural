@@ -7,26 +7,62 @@ const SupplierSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    address1: {
-      type: String,
-      required: true,
-    },
-    state: {
-      type: String,
-      required: true,
-    },
     email: {
       type: String,
       required: true,
     },
-    item: [{ type: ObjectId, ref: "ItemMaster" }],
-    cin: { type: String },
-    branches: [{ type: String }],
-    gst: { type: String },
-    pan: { type: String },
-    tan: { type: String },
-    address: { type: String },
-    bank: { type: String },
+    cin: {
+      type: Number,
+      required: true,
+    },
+    numberofBranches: {
+      type: Number,
+      required: true,
+    },
+    pan: {
+      type: Number,
+      required: true,
+    },
+    tan: {
+      type: Number,
+      required: true,
+    },
+    bankname: {
+      type: String,
+      required: true,
+    },
+    accountNumber: {
+      type: Number,
+      required: true,
+    },
+    bankifsc: {
+      type: String,
+      required: true,
+    },
+    cindoc: {
+      type: String,
+    },
+    pandoc: {
+      type: String,
+    },
+    tandoc: {
+      type: String,
+    },
+    bankdoc: {
+      type: String,
+    },
+    branches: [{ type: ObjectId, ref: "BranchesModel" }],
+    // items: [
+    //   {
+    //     price: {
+    //       type: Number,
+    //     },
+    //     _id: { type: ObjectId, ref: "ItemsModel" },
+    //   },
+    // ],
+    verified: {
+      type: Boolean,
+    },
   },
   {
     timestamps: true,

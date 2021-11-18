@@ -39,18 +39,21 @@ router.post("/item", async (req, res) => {
       price,
       moq,
     });
-    res.status(200).send({ message: "Item created " });
   } catch (error) {
     res.status(400).send("Item not created");
   }
 
   try {
-    const itemId = record._id;
+    // const itemId = record.code;
+    // const record1 = await SupplierMaster.find({
+    //   supplierName: supplierName,
+    // });
     const updated = await SupplierMaster.updateOne(
       { supplierName },
-      { $push: { item: itemId } }
+      // { $push: [{ supplierName, code }] }
+      { $push: { item: [{ name: supplierName, code }] } }
     );
-    res.status(200).send({ message: "pushed to supplierMaster" });
+    res.status(200).send(updated);
   } catch (error) {
     res.status(400).send("Item not pushed to supplierMaster");
   }
